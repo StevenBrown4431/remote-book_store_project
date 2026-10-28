@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <meta charset="UTF-8">
+        <title>AceReads</title>
+    </head>
+    <body>
+        <header>
+            <h1>Our Books</h1>
+            <p> Here's what we have:</p>
+        </header>
+
+        <main>
+            <ul class="book-list">
+                {% for book in books %}
+                    <li>
+                        <strong>{{ book.title }}</strong> by {{ book.author }}                
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <h2>Add a new book:</h3>
+            <form method="POST" action="/books">
+                <label for="title">Title</label>
+                <input type="text" name="title" placeholder="Title"><br>
+                <label for="author">Author</label>
+                <input type="text" name="author"placeholder="Author"><br>
+                <input type="submit" value="submit">
+            </form>
+        </main>
+
+        
+        <footer>
+            <p>&copy; 2026 AceReads. All rights reserved.</p>
+        </footer>
+
+    </body>
+</html>
