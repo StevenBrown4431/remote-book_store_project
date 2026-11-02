@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <meta charset="UTF-8">
+        <title>AceReads</title>
+    </head>
+        <body>
+            <header>
+                <nav>
+                <ul>
+                    <li><a href="/films">Films</a></li>
+                    <li><a href="/authors">Authors</a></li>
+                    <li><a href="/team">Sign up</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/quotes">Quotes</a></li>
+                </ul>
+            </nav>
+                <h1>Our films</h1>
+                <p> Here's what we have:</p>
+            </header>
+                <main>
+                <!-- 4-Column film Grid -->
+                <ul class="film-list">
+                    {% for film in films %}
+                        <li class="film-card">
+                            <div class="cover-container">
+                                <img
+                                    src="{{ url_for('static', filename='images/film_' ~ film.id ~ '.jpg') }}"
+                                    alt="{{ film.title }}"
+                                    class="film-thumb"
+                                    onerror="this.style.display='none';"
+                                >
+                                <div class="fallback-cover">
+                                    <span class="fallback-title">{{ film.title }}</span>
+                                    <span class="fallback-release_year">{{ film.release_year }}</span>
+                                </div>
+                            </div>
+
+                            <div class="film-info">
+                                <strong>{{ film.title }}</strong>  ({{ film.release_year }})                
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </main>        
+            <footer>
+                <p>&copy; 2026 AceReads. All rights reserved.</p>
+            </footer>
+        </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <meta charset="UTF-8">
+        <title>AceReads</title>
+    </head>
+    <body>
+        <header>
+            <h1>Log in</h1>
+        </header>
+
+        <main>
+            <h2>Enter your username and password:</h3>
+            <form method="POST" action="/sessions/new">
+                <label for="username">Username</label>
+                <input type="text" name="username" placeholder="Username"><br>
+                <label for="password">Password</label>
+                <input type="text" name="password"placeholder="Password"><br>
+                <input type="submit" value="Submit">
+            </form>
+        </main>
+        
+        <footer>
+            <p>&copy; 2026 AceReads. All rights reserved.</p>
+        </footer>
+    
+    </body>
+</html>

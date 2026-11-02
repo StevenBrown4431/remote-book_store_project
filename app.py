@@ -1,16 +1,23 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 from database_connection import DatabaseConnection
 from book_repository import BookRepository
 from book import Book
-from user import User
 from user_repository import UserRepository
+from user import User
+from film_repository import FilmRepository
+from login_required import login_required
 
 # instantiate a Flask app object
 app = Flask(__name__)
+app.secret_key = "some_really_secret_key"
 
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
+
+@app.route("/quotes", methods=["GET"])
+def get_quotes():
+    return render_template("quotes.html")
 
 @app.route('/books', methods= ['GET'])
 def get_all_books():
@@ -18,10 +25,10 @@ def get_all_books():
     connection.connect()
     book_repo = BookRepository(connection)
     books = book_repo.all()
-    print(books)
     return render_template("books.html", books=books)
 
 @app.route('/books', methods=['POST'])
+@login_required
 def create_book():
     connection = DatabaseConnection()
     connection.connect()
@@ -47,8 +54,40 @@ def save_user():
     user_repo = UserRepository(connection)
     user_details = request.form
     user = User(username=user_details["username"], password=user_details["password"])
-    user_repo.save(user)
-    return redirect("/users/new")
+    user_repo.save_user(user)
+    return redirect("/")
+
+@app.route('/sessions/new', methods=['GET'])
+def get_login():
+    return render_template("log_in.html")
+
+@app.route('/sessions', methods=['POST'])
+def login():
+    connection = DatabaseConnection()
+    connection.connect()
+    user_repo = UserRepository(connection)
+
+    username = request.form["username"]
+    password = request.form["password"]
+
+    user = user_repo.find_user(username)
+
+    if user and user.password == password:
+        session["user_id"] = user.id
+        session["username"] = user.username
+        return redirect("/books")
+    else:
+        return redirect("/sessions/new")
+
+
+
+@app.route ('/films', methods=['GET'])
+def get_films():
+    connection = DatabaseConnection()
+    connection.connect()
+    film_repo = FilmRepository(connection)
+    films = film_repo.all()
+    return render_template("films.html", films=films)
 
 #returns list of authors
 @app.route ('/authors', methods = ['GET'])
