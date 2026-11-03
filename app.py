@@ -79,7 +79,10 @@ def login():
     else:
         return redirect("/sessions/new")
 
-
+@app.route("/logout", methods=["GET", "POST"])
+def logout():
+    session.clear()
+    return redirect("/")
 
 @app.route ('/films', methods=['GET'])
 def get_films():

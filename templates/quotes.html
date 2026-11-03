@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-        <meta charset="UTF-8">
-        <title>AceReads</title>
-    </head>
-    <body>
-        <header>
-            <h1>Quotes</h1>
-            <p> These guys love books as much as us!</p>
-        </header>
+{% extends "base.html" %}
 
-        <main>
+{% block title %}Quotes - AceReads{% endblock %}
+
+{% block content %}
+<main>
+    <h2 class="page-title">Quotes</h2>
+    <p class="page-subtitle">These people love books as much as we do:</p>
+
             <ul class="quote-list">
                     <li><strong>Stephen King:</strong> "Books are a uniquely portable magic."</li>
                     <li><strong>Carl Sagan:</strong> "To read is to voyage through time."</li>
@@ -19,12 +14,6 @@
                     <li><strong>Margaret Atwood:</strong> "A word after a word after a word is power."</li>
                     <li><strong>Anna Quindlen:</strong> "Books are the plane, and the train, and the road.</li>
             </ul>
-        </main>
+</main>
 
-        
-        <footer>
-            <p>&copy; 2026 AceReads. All rights reserved.</p>
-        </footer>
-
-    </body>
-</html>
+{% endblock %}
