@@ -1,9 +1,15 @@
-    <h1>Team</h1>
+{% extends "base.html" %}
 
-    <p>AceBooks was created by...</p>
+{% block title %}The Team - AceReads{% endblock %}
 
+{% block content %}
+<main>
+    <h2 class="page-title">The Team</h2>
+    <p class="page-subtitle">Here's our awesome team:</p>
     <ul>
     {% for team_member in team %}
         <li></strong>{{ team_member }}</li>
     {% endfor %}
     </ul>
+</main>
+{% endblock %}

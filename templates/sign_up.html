@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-        <meta charset="UTF-8">
-        <title>AceReads</title>
-    </head>
-    <body>
-        <header>
-            <h1>New User</h1>
-        </header>
+{% extends "base.html" %}
 
-        <main>
-            <h2>Add a user:</h3>
+{% block title %}Sign up - AceReads{% endblock %}
+
+{% block content %}
+<main>
+    <h2 class="page-title">New User</h2>
+    <p class="page-subtitle">Sign up to manage the collection and add items</p>
             <form method="POST" action="/users/new">
                 <label for="username">Username</label>
                 <input type="text" name="username" placeholder="Username"><br>
@@ -19,11 +13,5 @@
                 <input type="text" name="password"placeholder="Password"><br>
                 <input type="submit" value="Submit">
             </form>
-        </main>
-        
-        <footer>
-            <p>&copy; 2026 AceReads. All rights reserved.</p>
-        </footer>
-    
-    </body>
-</html>
+</main>
+{% endblock %}

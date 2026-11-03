@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AceReads{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Shared Global Navigation -->
+    <header class="site-header">
+        <nav class="site-nav">
+        <a href="{{ url_for('index') }}" class="site-logo">AceReads</a>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('get_all_books') }}">Books</a></li>
+            <li><a href="{{ url_for('get_films')}}">Films</a></li>
+            <li><a href="/authors">Authors</a></li>
+            <li><a href="{{ url_for('get_quotes') }}">Quotes</a></li>
+            <li><a href="{{ url_for('get_team') }}">Team</a></li>
+
+
+            {% if session.get('username') %}
+            <li class="nav-user"><span>Welcome, {{ session['username'] }}</span></li>
+            <li><a href="{{ url_for('logout') }}" class="btn-nav-primary">Log Out</a></li>
+            {% else %}
+            <li><a href="/users/new">Sign Up</a></li>
+            <li><a href="{{ url_for('get_login') }}" class="btn-nav-primary">Log In</a></li>
+            {% endif %}
+        </ul>
+        </nav>
+    </header>
+
+    <!-- Page-Specific Body Content Injected Here -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Shared Footer -->
+    <footer>
+        <p>&copy; 2026 AceReads. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
