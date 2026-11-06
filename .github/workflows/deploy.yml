@@ -52,11 +52,19 @@ jobs:
               docker run \
                 --name book_store_db \
                 --network book_store_network \
+                --restart unless-stopped \
                 -e POSTGRES_USER='${{ secrets.POSTGRES_USER }}' \
                 -e POSTGRES_PASSWORD='${{ secrets.POSTGRES_PASSWORD }}' \
                 -e POSTGRES_DB='book_store' \
                 -d postgres:17
-              docker exec -i book_store_db psql -U postgres -d book_store < ~/book_store/seeds/books.sql
+              
+              # Wait until postgres is ready to accept connections before seeding
+              until docker exec book_store_db pg_isready -U '${{ secrets.POSTGRES_USER }}' -d book_store; do
+                echo "Waiting for PostgreSQL to start..."
+                sleep 2
+              done
+
+              docker exec -i book_store_db psql -U '${{ secrets.POSTGRES_USER }}' -d book_store < ~/book_store/seeds/books.sql
             fi
 
       - name: Build Docker image
@@ -67,6 +75,9 @@ jobs:
           port: 22
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            # Clean dangling images and builder cache before compiling to protect disk space
+            docker builder prune -f
+            docker image prune -f
             docker build --pull -t book_store:latest ~/book_store
 
       - name: Deploy new container

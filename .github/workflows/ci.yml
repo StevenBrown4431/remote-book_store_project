@@ -8,7 +8,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:13
+        image: postgres:17
         env:
           POSTGRES_HOST_AUTH_METHOD: trust
           POSTGRES_USER: runner
@@ -23,10 +23,10 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
@@ -34,15 +34,34 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          playwright install
+          playwright install --with-deps
 
-      - name: Seed database
+      - name: Install PostgreSQL client & Seed Database
         run: |
-          psql -h 127.0.0.1 -U runner book_store_test -f seeds/books.sql
+          sudo apt-get update && sudo apt-get install -y postgresql-client
+          psql -h 127.0.0.1 -U runner -d book_store_test -f seeds/books.sql
 
       - name: Start web app
-        run: nohup python app.py > app.log 2>&1 &
+        env:
+          DATABASE_HOST: 127.0.0.1
+          DATABASE_NAME: book_store_test
+          DATABASE_USER: runner
+        run: |
+          nohup python app.py > app.log 2>&1 &
+          # Wait up to 15 seconds for Flask to respond on port 5001
+          timeout 15 bash -c 'until nc -z 127.0.0.1 5001; do sleep 0.5; done' || (cat app.log && exit 1)
 
       - name: Run tests
+        env:
+          DATABASE_HOST: 127.0.0.1
+          DATABASE_NAME: book_store_test
+          DATABASE_USER: runner
         run: |
           pytest
+
+      - name: Upload app logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: flask-app-log
+          path: app.log
