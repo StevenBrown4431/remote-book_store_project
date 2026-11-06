@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.title }} - AceReads{% endblock %}
+
+{% block content %}
+<main>
+    <div class="book-detail-wrapper">
+        <a href="/books" class="back-link">&larr; Back to all books</a>
+
+        <div class="book-detail-container">
+            <!-- Left Column: Book Cover with Fallback -->
+            <div class="book-detail-cover">
+                <div class="cover-container detail-cover">
+                    {% if book.image_url %}
+                        <img
+                            src="{{ book.image_url }}"
+                            alt="{{ book.title }}"
+                            class="book-thumb detail-thumb"
+                            onerror="this.style.display='none';"
+                        >
+                    {% endif %}
+                    <div class="fallback-cover">
+                        <span class="fallback-title">{{ book.title }}</span>
+                        <span class="fallback-author">{{ book.author }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Book Details -->
+            <div class="book-detail-info">
+                <h1 class="detail-title">{{ book.title }}</h1>
+                <p class="detail-author">By <span>{{ book.author }}</span></p>
+
+                {% if book.rating %}
+                    <div class="detail-rating">
+                        <span class="rating-label">Rating:</span>
+                        <span class="rating-stars">
+                            {% for _ in range(book.rating|int) %}★{% endfor %}
+                            {% for _ in range(10 - book.rating|int) %}☆{% endfor %}
+                        </span>
+                        <span class="rating-number">({{ book.rating }}/10)</span>
+                    </div>
+                {% endif %}
+
+                <div class="detail-section">
+                    <h3>Synopsis</h3>
+                    <p class="detail-synopsis">
+                        {{ book.synopsis if book.synopsis else "No synopsis available." }}
+                    </p>
+                </div>
+
+                {% if book.notes %}
+                    <div class="detail-section detail-notes-box">
+                        <h3>Personal Notes</h3>
+                        <p class="detail-notes">{{ book.notes }}</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

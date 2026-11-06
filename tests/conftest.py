@@ -46,14 +46,3 @@ def logged_in_page_with_cookie(context: BrowserContext, page:Page):
     }])
 
     return page
-# Now, when a test includes a parameter named `db_connection`, Pytest automatically
-# calls this fixture before the test runs and passes in its return value instead 
-# of the function itself.
-# We don’t need to call `db_connection()` or `db_connection.connect()` manually.
-
-# For example:
-
-# def test_something(db_connection):
-#     # db_connection's return value is now available to us in this test.
-
-# More information on Pytest fixtures: https://www.tutorialspoint.com/pytest/pytest_fixtures.htm

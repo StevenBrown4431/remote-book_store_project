@@ -11,35 +11,26 @@
     <ul class="book-list">
         {% for book in books %}
             <li class="book-card">
-                <div class="cover-container">
-                    <img
-                        src="{{ url_for('static', filename='images/book_' ~ book.id ~ '.jpg') }}"
-                        alt="{{ book.title }}"
-                        class="book-thumb"
-                        onerror="this.style.display='none';"
-                    >
-                    <div class="fallback-cover">
-                        <span class="fallback-title">{{ book.title }}</span>
-                        <span class="fallback-author">{{ book.author }}</span>
+                <a href="{{ url_for('get_individual_book', book_id=book.id) }}" class="book-card-link">
+                    <div class="cover-container">
+                        <img
+                            src="{{ book.image_url }}"
+                            alt="{{ book.title }}"
+                            class="book-thumb"
+                            onerror="this.style.display='none';"
+                        >
+                        <div class="fallback-cover">
+                            <span class="fallback-title">{{ book.title }}</span>
+                            <span class="fallback-author">{{ book.author }}</span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="book-info">
-                    <strong>{{ book.title }}</strong> by {{ book.author }}
-                </div>
+                    <div class="book-info">
+                        <strong>{{ book.title }}</strong> by {{ book.author }}
+                    </div>
+                </a>
             </li>
         {% endfor %}
     </ul>
-
-    <h2>Add a new book:</h2>
-    <form method="POST" action="/books">
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title" placeholder="Title" required><br>
-
-        <label for="author">Author</label>
-        <input type="text" id="author" name="author" placeholder="Author" required><br>
-
-        <input type="submit" value="Submit">
-    </form>
 </main>
 {% endblock %}

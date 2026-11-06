@@ -252,7 +252,13 @@ ul.book-list li.book-card:hover {
     display: block;
     margin-bottom: 0.25rem;
 }
-
+.book-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
 /* ==========================================================================
 5. Form Styling (Shared across Login, Sign Up, and Book Creation)
    ========================================================================== */
@@ -277,6 +283,8 @@ form label {
 
 /* Applies uniformly to both text and password inputs */
 form input[type="text"],
+form input[type="number"],
+form input[type="url"],
 form input[type="password"] {
     width: 100%;
     padding: 0.65rem 0.75rem;
@@ -289,6 +297,8 @@ form input[type="password"] {
 }
 
 form input[type="text"]:focus,
+form input[type="number"]:focus,
+form input[type="url"],
 form input[type="password"]:focus {
     outline: none;
     border-color: #1f2937;
@@ -331,4 +341,158 @@ footer {
     color: #6b7280;
     font-size: 0.85rem;
     font-family: system-ui, -apple-system, sans-serif;
+}
+/* ==========================================================================
+7. Individual Book Detail Page
+   ========================================================================== */
+.book-detail-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 500;
+}
+
+.back-link:hover {
+    color: #1f2937;
+    text-decoration: underline;
+}
+
+.book-detail-container {
+    display: flex;
+    gap: 2.5rem;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.book-detail-cover {
+    flex: 0 0 260px;
+}
+
+.cover-container.detail-cover {
+    height: 380px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.detail-thumb {
+    height: 100%;
+}
+
+.book-detail-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-title {
+    font-size: 2rem;
+    color: #111827;
+    line-height: 1.25;
+    margin-bottom: 0.25rem;
+}
+
+.detail-author {
+    font-size: 1.15rem;
+    color: #4b5563;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.detail-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-family: system-ui, -apple-system, sans-serif;
+}
+
+.rating-label {
+    font-weight: 600;
+    color: #374151;
+}
+
+.rating-stars {
+    color: #d97706; /* Warm amber */
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.rating-number {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+.detail-section {
+    margin-bottom: 1.5rem;
+}
+
+.detail-section h3 {
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.detail-synopsis {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #374151;
+}
+
+.detail-notes-box {
+    background-color: #f8fafc;
+    border-left: 3px solid #1f2937;
+    padding: 1rem 1.25rem;
+    border-radius: 0 6px 6px 0;
+}
+
+.detail-notes {
+    font-style: italic;
+    color: #475569;
+}
+
+/* Responsive adjustment for tablet/mobile */
+@media (max-width: 680px) {
+    .book-detail-container {
+        flex-direction: column;
+        padding: 1.5rem;
+        align-items: center;
+    }
+
+    .book-detail-cover {
+        flex: 0 0 auto;
+        width: 220px;
+    }
+
+    .cover-container.detail-cover {
+        height: 320px;
+    }
+
+    .book-detail-info {
+        text-align: center;
+    }
+
+    .detail-rating {
+        justify-content: center;
+    }
+
+    .detail-notes-box {
+        border-left: none;
+        border-top: 3px solid #1f2937;
+        border-radius: 0 0 6px 6px;
+    }
 }
